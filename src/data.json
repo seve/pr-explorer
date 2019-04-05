@@ -1,31 +1,34 @@
 {
-  "huddle":[
+  "huddles": [
     {
-    "mitchell": [
-      {
-        "name": "Severiano Badajoz",
-        "login": "seve",
-        "node_id": "MDQ6VXNlcjg3MTY4Mjk="
-      },
-      {
-        "name": "Timothy Kaing",
-        "login": "daisukiyo",
-        "node_id": "MDQ6VXNlcjkwNTk0ODQ="
-      }
-    ],
-    "dani": [
-      {
-        "name": "Connor Cahill",
-        "login": "Connor-Cahill",
-        "node_id": "MDQ6VXNlcjI3ODYwNTcw"
-      },
-      {
-        "name": "Thomas Lee",
-        "login": "ThomasLee94",
-        "node_id": "MDQ6VXNlcjMxNTQ4Mzg2"
-      }
-    ]
-  }
-
+      "huddle_lead": "michell",
+      "huddle_members":[
+        {
+          "name": "Severiano Badajoz",
+          "login": "seve",
+          "node_id": "MDQ6VXNlcjg3MTY4Mjk="
+        },
+        {
+          "name": "Timothy Kaing",
+          "login": "daisukiyo",
+          "node_id": "MDQ6VXNlcjkwNTk0ODQ="
+        }
+      ]
+    },
+    {
+      "huddle_lead": "dani",
+      "huddle_members":[
+        {
+          "name": "Connor Cahill",
+          "login": "Connor-Cahill",
+          "node_id": "MDQ6VXNlcjI3ODYwNTcw"
+        },
+        {
+          "name": "Thomas Lee",
+          "login": "ThomasLee94",
+          "node_id": "MDQ6VXNlcjMxNTQ4Mzg2"
+        }
+      ]
+    }
   ]
 }

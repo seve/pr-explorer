@@ -61,7 +61,7 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
             <Query
               query={GET_USER_PRS}
-              variables={{users: state.allIDs }}
+              variables={{ users: state.allIDs }}
 
             >
               {({ loading, error, data }) => {

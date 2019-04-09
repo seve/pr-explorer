@@ -41,9 +41,9 @@ class App extends Component {
                   {`Team: ${huddleLeader}`}
                 </Link>
               ))}
+              <Route path="/huddle/:index" component={Huddle} />
             </header>
           </div>
-          <Route path="/huddle" component={Huddle} />
         </ApolloProvider>
       </Router>
     );

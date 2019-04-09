@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import ApolloClient from 'apollo-boost';
-import gql from 'graphql-tag';
-import { ApolloProvider, Query } from 'react-apollo';
+import { ApolloProvider } from 'react-apollo';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
-
+import Huddle from './Huddle';
 import logo from '../logo.svg';
 import '../App.css';
 import jsonData from '../data.json';
@@ -17,69 +17,35 @@ const client = new ApolloClient({
   },
 });
 
-const GET_USER_PRS = gql`
-query GetPR($users: [ID!]!){
-  nodes(ids:$users){
-    ... on User {
-      login,
-      id,
-      pullRequests(orderBy:{field: CREATED_AT, direction: DESC}, first: 20) {
-        nodes{
-          permalink,
-          createdAt
-        }
-      }
-    }
-  }
-}
-`;
-
 class App extends Component {
   constructor(props) {
     super(props);
 
-    let allIDs = [];
-    jsonData.huddles.forEach((huddle) => {     
-      allIDs = allIDs.concat(huddle.huddle_members.map((user) => {
-
-        return user.node_id;
-      }));
-    });
-
+    const huddles = jsonData.huddles.map(huddle => huddle.huddle_lead);
 
     this.state = {
-      allIDs,
+      huddles,
     };
   }
 
   render() {
     const { ...state } = this.state;
     return (
-      <ApolloProvider client={client}>
-        <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <Query
-              query={GET_USER_PRS}
-              variables={{users: state.allIDs }}
-
-            >
-              {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
-
-                return data.nodes.map(({ login, id }) => (
-                  <div key={id}>
-                    <p>
-                      {login}
-                    </p>
-                  </div>
-                ));
-              }}
-            </Query>
-          </header>
-        </div>
-      </ApolloProvider>
+      <Router>
+        <ApolloProvider client={client}>
+          <div className="App">
+            <header className="App-header">
+              <img src={logo} className="App-logo" alt="logo" />
+              {state.huddles.map((huddleLeader, index) => (
+                <Link key={huddleLeader} to={`/huddle/${index}`}>
+                  {`Team: ${huddleLeader}`}
+                </Link>
+              ))}
+            </header>
+          </div>
+          <Route path="/huddle" component={Huddle} />
+        </ApolloProvider>
+      </Router>
     );
   }
 }

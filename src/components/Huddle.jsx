@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import query from '../graphql/queries';
@@ -10,6 +10,7 @@ import data from '../data.json';
 export default class Huddle extends Component {
   constructor(props) {
     super(props);
+    
 
     const { params } = props.match;
 
@@ -23,10 +24,13 @@ export default class Huddle extends Component {
   }
 
   render() {
-    const { state } = this;
+    const { state, props } = this;
+    const { params } = props.match;
+
 
     return (
-      <Router>
+      <>
+        <Link to="/">Back</Link> 
         <Query {...{ query }} variables={{ users: state.ids }}>
           {({ loading, error, data }) => {
             if (loading) return <p>Loading...</p>;
@@ -34,15 +38,28 @@ export default class Huddle extends Component {
             const users = data.nodes.map(user => ({
               login: user.login,
               pullRequests: user.pullRequests.nodes,
+              name: props.users[params.index].reduce((accum, user1) => {
+                console.log('Looping: user:', user1, user1.login, '===', user.login);
+                
+                if (user1.login === user.login) {
+                  console.log('entered', user1);
+                  
+                  return user1.name;
+                }
+                return accum;
+              }, ''),
             }));
 
-            console.log(users.sort((a, b) => ((a.pullRequests.length > b.pullRequests.length) ? -1 : 1)));
+            console.log(props.users[params.index]);
+            
+
+            users.sort((a, b) => ((a.pullRequests.length > b.pullRequests.length) ? -1 : 1));
 
 
-            return users.map(user => <Link key={user.login} to={`/user/${user.login}`}>{`${user.login}: ${user.pullRequests.length} PRs`}</Link>);
+            return users.map(user => <Link key={user.login} to={`/user/${user.login}`}>{`${user.name}: ${user.pullRequests.length} PRs`}</Link>);
           }}
         </Query>
-      </Router>
+      </>
     );
   }
 }
@@ -53,4 +70,5 @@ Huddle.propTypes = {
       name: PropTypes.string,
     }),
   }),
+  users: PropTypes.arrayOf(PropTypes.array).isRequired,
 };

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Huddle from './Huddle';
+import HuddleList from './HuddleList';
 import logo from '../logo.svg';
 import '../App.css';
 import jsonData from '../data.json';
@@ -22,9 +23,14 @@ class App extends Component {
     super(props);
 
     const huddles = jsonData.huddles.map(huddle => huddle.huddle_lead);
+    const users = jsonData.huddles.map(huddle => huddle.huddle_members.map(user => user));
+
+    console.log('users', users);
+    
 
     this.state = {
       huddles,
+      users,
     };
   }
 
@@ -36,12 +42,10 @@ class App extends Component {
           <div className="App">
             <header className="App-header">
               <img src={logo} className="App-logo" alt="logo" />
-              {state.huddles.map((huddleLeader, index) => (
-                <Link key={huddleLeader} to={`/huddle/${index}`}>
-                  {`Team: ${huddleLeader}`}
-                </Link>
-              ))}
-              <Route path="/huddle/:index" component={Huddle} />
+
+              <Route exact path="/" component={HuddleList} />
+              <Route path="/huddle/:index" render={props => <Huddle {...props} users={state.users} />} />
+              {/* <Route path="/huddle/hello" render={props => <h1>Hello</h1>} /> */}
             </header>
           </div>
         </ApolloProvider>

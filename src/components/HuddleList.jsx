@@ -36,7 +36,6 @@ export default class HuddleList extends Component {
 
     return (
       <>
-
       <DatePicker
           selected={this.state.startDate}
           selectsStart
@@ -52,7 +51,6 @@ export default class HuddleList extends Component {
           endDate={this.state.endDate}
           onChange={this.handleChangeEnd}
       />
-
         {huddles.map((huddleLeader, index) => (
           <Link key={huddleLeader} to={`/huddle/${index}`}>
             {`Team: ${huddleLeader}`}

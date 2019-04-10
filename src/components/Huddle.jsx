@@ -36,6 +36,7 @@ export default class Huddle extends Component {
             if (loading) return <p>Loading...</p>;
             if (error) return <p>Error :(</p>;
             const users = data.nodes.map(user => ({
+              id: user.id,
               login: user.login,
               pullRequests: user.pullRequests.nodes,
               name: props.users[params.index].reduce((accum, user1) => {
@@ -56,7 +57,7 @@ export default class Huddle extends Component {
             users.sort((a, b) => ((a.pullRequests.length > b.pullRequests.length) ? -1 : 1));
 
 
-            return users.map(user => <Link key={user.login} to={`/user/${user.login}`}>{`${user.name}: ${user.pullRequests.length} PRs`}</Link>);
+            return users.map(user => <Link key={user.login} to={`/huddle/${params.index}/user/${user.id}`}>{`${user.name}: ${user.pullRequests.length} PRs`}</Link>);
           }}
         </Query>
       </>

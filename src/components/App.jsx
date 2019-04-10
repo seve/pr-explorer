@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Huddle from './Huddle';
 import HuddleList from './HuddleList';
+import User from './User';
+
 import logo from '../logo.svg';
 import '../App.css';
 import jsonData from '../data.json';
@@ -44,8 +46,8 @@ class App extends Component {
               <img src={logo} className="App-logo" alt="logo" />
 
               <Route exact path="/" component={HuddleList} />
-              <Route path="/huddle/:index" render={props => <Huddle {...props} users={state.users} />} />
-              {/* <Route path="/huddle/hello" render={props => <h1>Hello</h1>} /> */}
+              <Route exact path="/huddle/:index" render={props => <Huddle {...props} users={state.users} />} />
+              <Route path="/huddle/:index/user/:nodeID" render={props => <User {...props} users={state.users} />} />
             </header>
           </div>
         </ApolloProvider>

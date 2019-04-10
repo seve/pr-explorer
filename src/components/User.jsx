@@ -49,25 +49,24 @@ export default class User extends Component {
     const { state, props } = this;
     const { index } = props.match.params;
     return (
-      <div>
+      <>
         <Link to={`/huddle/${index}`}>Back</Link>
-        <>
-          <DatePicker
-            selected={state.startDate}
-            selectsStart
-            startDate={state.startDate}
-            endDate={state.endDate}
-            onChange={this.handleChangeStart}
-          />
+        
+        <DatePicker
+          selected={state.startDate}
+          selectsStart
+          startDate={state.startDate}
+          endDate={state.endDate}
+          onChange={this.handleChangeStart}
+        />
 
-          <DatePicker
-            selected={state.endDate}
-            selectsEnd
-            startDate={state.startDate}
-            endDate={state.endDate}
-            onChange={this.handleChangeEnd}
-          />
-        </>
+        <DatePicker
+          selected={state.endDate}
+          selectsEnd
+          startDate={state.startDate}
+          endDate={state.endDate}
+          onChange={this.handleChangeEnd}
+        />
         <Query {...{ query }} variables={{ users: state.nodeID }}>
           {({ loading, error, data }) => {
             if (loading) return <p>Loading...</p>;
@@ -80,8 +79,6 @@ export default class User extends Component {
             const validPRs = user.pullRequests.nodes.filter((pr) => {
               return new Date(pr.createdAt) <= state.endDate && new Date(pr.createdAt) >= state.startDate
             });
-
-            console.log(validPRs)
             
             return (
               <>
@@ -94,7 +91,7 @@ export default class User extends Component {
 
                 <div>
                   {validPRs.map(pullRequest => 
-                    <a key={pullRequest.createdAt} href={pullRequest.permalink}>{pullRequest.createdAt}</a>
+                    <a key={pullRequest.createdAt} target="_blank" href={pullRequest.permalink}>{pullRequest.createdAt}</a>
                   
                   )}
                 </div>
@@ -103,7 +100,7 @@ export default class User extends Component {
             );
           }}
         </Query>
-      </div>
+      </>
     );
   }
 }

@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import DatePicker from 'react-datepicker';
+
+import "react-datepicker/dist/react-datepicker.css";
+
+
 
 import query from '../graphql/queries';
 import data from '../data.json';
@@ -10,7 +15,7 @@ import data from '../data.json';
 export default class Huddle extends Component {
   constructor(props) {
     super(props);
-    
+
 
     const { params } = props.match;
 
@@ -20,7 +25,24 @@ export default class Huddle extends Component {
 
     this.state = {
       ids,
+      startDate: new Date(),
+      endDate: new Date(),
     };
+
+    this.handleChangeStart = this.handleChangeStart.bind(this);
+    this.handleChangeEnd = this.handleChangeEnd.bind(this);
+  }
+
+  handleChangeEnd = (date) => {
+    this.setState({
+      endDate: date
+    });
+  }
+
+  handleChangeStart = (date) => {
+    this.setState({
+      startDate: date
+    });
   }
 
   render() {
@@ -30,7 +52,22 @@ export default class Huddle extends Component {
 
     return (
       <>
-        <Link to="/">Back</Link> 
+        <Link to="/">Back</Link>
+        <DatePicker
+          selected={state.startDate}
+          selectsStart
+          startDate={state.startDate}
+          endDate={state.endDate}
+          onChange={this.handleChangeStart}
+        />
+
+        <DatePicker
+          selected={state.endDate}
+          selectsEnd
+          startDate={state.startDate}
+          endDate={state.endDate}
+          onChange={this.handleChangeEnd}
+        />
         <Query {...{ query }} variables={{ users: state.ids }}>
           {({ loading, error, data }) => {
             if (loading) return <p>Loading...</p>;
@@ -41,10 +78,10 @@ export default class Huddle extends Component {
               pullRequests: user.pullRequests.nodes,
               name: props.users[params.index].reduce((accum, user1) => {
                 console.log('Looping: user:', user1, user1.login, '===', user.login);
-                
+
                 if (user1.login === user.login) {
                   console.log('entered', user1);
-                  
+
                   return user1.name;
                 }
                 return accum;
@@ -52,7 +89,7 @@ export default class Huddle extends Component {
             }));
 
             console.log(props.users[params.index]);
-            
+
 
             users.sort((a, b) => ((a.pullRequests.length > b.pullRequests.length) ? -1 : 1));
 

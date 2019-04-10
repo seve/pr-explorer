@@ -94,7 +94,7 @@ export default class User extends Component {
 
                 <div>
                   {validPRs.map(pullRequest => 
-                    <a key={pullRequest.createdAt} href={pullRequest.permalink}>pullRequest.createdAt</a>
+                    <a key={pullRequest.createdAt} href={pullRequest.permalink}>{pullRequest.createdAt}</a>
                   
                   )}
                 </div>

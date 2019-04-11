@@ -7,7 +7,6 @@ import Huddle from './Huddle';
 import HuddleList from './HuddleList';
 import User from './User';
 
-import '../App.css';
 import jsonData from '../data.json';
 
 const ACCESS_TOKEN = '96ee9c9e301e2d7f79615bbb027228fc6b05c110';

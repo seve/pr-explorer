@@ -7,7 +7,6 @@ import Huddle from './Huddle';
 import HuddleList from './HuddleList';
 import User from './User';
 
-import logo from '../logo.svg';
 import '../App.css';
 import jsonData from '../data.json';
 
@@ -24,14 +23,9 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    const huddles = jsonData.huddles.map(huddle => huddle.huddle_lead);
-    const users = jsonData.huddles.map(huddle => huddle.huddle_members.map(user => user));
-
-    console.log('users', users);
-    
+    const users = jsonData.huddles.map(huddle => huddle.huddle_members.map(user => user));    
 
     this.state = {
-      huddles,
       users,
     };
   }
@@ -42,13 +36,9 @@ class App extends Component {
       <Router>
         <ApolloProvider client={client}>
           <div className="App">
-            <header className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
-
-              <Route exact path="/" component={HuddleList} />
-              <Route exact path="/huddle/:index" render={props => <Huddle {...props} users={state.users} />} />
-              <Route path="/huddle/:index/user/:nodeID" render={props => <User {...props} users={state.users} />} />
-            </header>
+            <Route exact path="/" component={HuddleList} />
+            <Route exact path="/huddle/:index" render={props => <Huddle {...props} users={state.users} />} />
+            <Route path="/huddle/:index/user/:nodeID" render={props => <User {...props} users={state.users} />} />
           </div>
         </ApolloProvider>
       </Router>

@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 
-import "react-datepicker/dist/react-datepicker.css";
-
+import 'react-datepicker/dist/react-datepicker.css';
 
 
 import query from '../graphql/queries';
@@ -25,7 +24,7 @@ export default class Huddle extends Component {
 
     this.state = {
       ids,
-      startDate: new Date("2018-01-01"),
+      startDate: new Date('2018-01-01'),
       endDate: new Date(),
     };
 
@@ -33,15 +32,15 @@ export default class Huddle extends Component {
     this.handleChangeEnd = this.handleChangeEnd.bind(this);
   }
 
-  handleChangeEnd = (date) => {
+  handleChangeEnd(date) {
     this.setState({
-      endDate: date
+      endDate: date,
     });
   }
 
-  handleChangeStart = (date) => {
+  handleChangeStart(date) {
     this.setState({
-      startDate: date
+      startDate: date,
     });
   }
 
@@ -75,9 +74,9 @@ export default class Huddle extends Component {
             const users = data.nodes.map(user => ({
               id: user.id,
               login: user.login,
-              pullRequests: user.pullRequests.nodes.filter((pr) => {
-              return new Date(pr.createdAt) <= state.endDate && new Date(pr.createdAt) >= state.startDate
-            }),
+              pullRequests: user.pullRequests.nodes
+                .filter(pr => new Date(pr.createdAt) <= state.endDate
+                  && new Date(pr.createdAt) >= state.startDate),
               name: props.users[params.index].reduce((accum, user1) => {
                 if (user1.login === user.login) {
                   return user1.name;
@@ -86,25 +85,21 @@ export default class Huddle extends Component {
               }, ''),
             }));
 
-            console.log(props.users[params.index]);
-
-
             users.sort((a, b) => ((a.pullRequests.length > b.pullRequests.length) ? -1 : 1));
 
 
             return (
               <>
-              <h2>{jsonData.huddles[params.index].huddle_lead}</h2>
-              <h3>
-                  Pull Requests(
-                  {users.reduce((accum, user) => 
-                    accum += user.pullRequests.length
-                  , 0)}
-                  )
+                <h2>{jsonData.huddles[params.index].huddle_lead}</h2>
+                <h3>
+                    Pull Requests(
+                  {users.reduce((accum, user) => accum + user.pullRequests.length,
+                    0)}
+                    )
                 </h3>
-              {users.map(user => <Link key={user.login} to={`/huddle/${params.index}/user/${user.id}`}>{`${user.name}: ${user.pullRequests.length} PRs`}</Link>)}
+                {users.map(user => <Link key={user.login} to={`/huddle/${params.index}/user/${user.id}`}>{`${user.name}: ${user.pullRequests.length} PRs`}</Link>)}
               </>
-            )
+            );
           }}
         </Query>
       </>
@@ -117,6 +112,6 @@ Huddle.propTypes = {
     params: PropTypes.shape({
       name: PropTypes.string,
     }),
-  }),
+  }).isRequired,
   users: PropTypes.arrayOf(PropTypes.array).isRequired,
 };

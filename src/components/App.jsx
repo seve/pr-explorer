@@ -22,7 +22,7 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    const users = jsonData.huddles.map(huddle => huddle.huddle_members.map(user => user));    
+    const users = jsonData.huddles.map(huddle => huddle.huddle_members.map(user => user));
 
     this.state = {
       users,

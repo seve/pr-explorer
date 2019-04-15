@@ -3,12 +3,21 @@ import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
+import styled from 'styled-components';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
 
 import query from '../graphql/queries';
 import jsonData from '../data.json';
+
+const StyledHuddle = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 40vw;
+  text-align: center;
+`;
 
 
 export default class Huddle extends Component {
@@ -50,7 +59,7 @@ export default class Huddle extends Component {
 
 
     return (
-      <>
+      <StyledHuddle>
         <Link to="/">Back</Link>
         <DatePicker
           selected={state.startDate}
@@ -102,7 +111,7 @@ export default class Huddle extends Component {
             );
           }}
         </Query>
-      </>
+      </StyledHuddle>
     );
   }
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import styled from 'styled-components/macro';
 
 import Huddle from './Huddle';
 import HuddleList from './HuddleList';
@@ -17,6 +18,21 @@ const client = new ApolloClient({
     Authorization: `bearer ${ACCESS_TOKEN}`,
   },
 });
+
+const StyledApp = styled.div`
+  background-color: #0A1E2B;
+  height: 100vh;
+  margin: 0 0;
+  padding: 8vw;
+`;
+
+const H1 = styled.h1`
+  margin: auto;
+  width: 30%;
+  text-align: center;
+  font-size: 4vw;
+  color:#EAA823;
+`;
 
 class App extends Component {
   constructor(props) {
@@ -34,11 +50,12 @@ class App extends Component {
     return (
       <Router>
         <ApolloProvider client={client}>
-          <div className="App">
+          <StyledApp>
+            <H1>PR Explorer</H1>
             <Route exact path="/" component={HuddleList} />
             <Route exact path="/huddle/:index" render={props => <Huddle {...props} users={state.users} />} />
             <Route path="/huddle/:index/user/:nodeID" render={props => <User {...props} users={state.users} />} />
-          </div>
+          </StyledApp>
         </ApolloProvider>
       </Router>
     );

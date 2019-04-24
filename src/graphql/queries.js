@@ -9,7 +9,8 @@ query GetPR($users: [ID!]!){
       pullRequests(orderBy:{field: CREATED_AT, direction: DESC}, first: 20) {
         nodes{
           permalink,
-          createdAt
+          createdAt,
+          state
         }
       }
     }

@@ -36,9 +36,6 @@ export default class Huddle extends Component {
       startDate: new Date('2018-01-01'),
       endDate: new Date(),
     };
-
-    this.handleChangeStart = this.handleChangeStart.bind(this);
-    this.handleChangeEnd = this.handleChangeEnd.bind(this);
   }
 
   handleChangeEnd(date) {
@@ -66,7 +63,7 @@ export default class Huddle extends Component {
           selectsStart
           startDate={state.startDate}
           endDate={state.endDate}
-          onChange={this.handleChangeStart}
+          onChange={date => this.handleChangeStart(date)}
         />
 
         <DatePicker
@@ -74,7 +71,7 @@ export default class Huddle extends Component {
           selectsEnd
           startDate={state.startDate}
           endDate={state.endDate}
-          onChange={this.handleChangeEnd}
+          onChange={date => this.handleChangeEnd(date)}
         />
         <Query {...{ query }} variables={{ users: state.ids }}>
           {({ loading, error, data }) => {
